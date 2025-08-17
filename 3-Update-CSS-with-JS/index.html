@@ -80,42 +80,20 @@
     <script>
       const inputs = document.querySelectorAll(".controls input");
       /*
-      
-      The querySelectorAll returns Nodelist and not Arrays: The major difference is that when you see the prototype of the Nodelist, it doesn't have all the higher order functions that are normally available for arrays such as: map, filter, reduce etc.
-      
-      For now we will only need forEach so we don't need to convert it to array.
-
+      The querySelectorAll returns Nodelist and not Arrays: The major difference is that when you see the prototype of the Nodelist, it doesn't have all the higher order functions that are normally available for arrays such as: map, filter, reduce etc. For now we will only need forEach so we don't need to convert it to array. 
       */
 
       function handleUpdate() {
         const suffix = this.dataset.sizing || "";
-        console.log(suffix);
-
         document.documentElement.style.setProperty(
           `--${this.name}`,
           this.value + suffix
         );
       }
 
-      inputs.forEach((input) => {
-        //flag to track if the mouse is clicked or not
-        let isMouseDown = false;
-
-        //mouse click tracking
-        input.addEventListener("mousedown", () => (isMouseDown = true));
-        input.addEventListener("mouseup", () => (isMouseDown = false));
-        input.addEventListener("mouseleave", () => (isMouseDown = false));
-
-        //track mouse movement only when clicked
-        input.addEventListener("mousemove", function () {
-          if (isMouseDown) {
-            handleUpdate.call(this);
-          }
-        });
-
-        // Also allow normal change (e.g., keyboard arrows, clicking directly)
-        input.addEventListener("change", handleUpdate);
-      });
+      // "input" fires while dragging slider OR when value changes via keyboard/click
+      inputs.forEach((input) => input.addEventListener("input", handleUpdate));
+      
     </script>
   </body>
 </html>
