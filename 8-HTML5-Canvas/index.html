@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>HTML5 Canvas</title>
+    <link rel="icon" href="https://fav.farm/🔥" />
+  </head>
+  <body>
+    <canvas id="draw" width="800" height="800"></canvas>
+    <script>
+      const canvas = document.querySelector("#draw");
+      const ctx = canvas.getContext("2d");
+
+      //set the height and width to that of the window
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      //define context variables
+      ctx.strokeStyle = "#BADA55";
+      ctx.lineJoin = "round";
+      ctx.lineCap = "round";
+
+      //to enable blend mode
+      // ctx.globalCompositeOperation = "multiply";
+      
+      ctx.lineWidth = 30;
+      let hue = 0;
+      let direction = true;
+      
+      
+      //set flag and variables for tracking
+      let isDrawing = false;
+      let lastX = 0;
+      let lastY = 0;
+
+      function draw(e) {
+        //if flag is not enabled, don't draw
+        if (!isDrawing) return;
+
+        ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+
+        ctx.beginPath();
+        //start from
+        ctx.moveTo(lastX, lastY);
+
+        //draw to
+        ctx.lineTo(e.offsetX, e.offsetY);
+
+        //line is not drawn until stroke is defined;
+        ctx.stroke();
+
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+
+        //increment hue gradually
+        hue++;
+        //keep the hue in the boundary of 360
+        hue %= 360;
+
+        //if hue is beyond boundry (30, 100), change the direction
+        direction = ctx.lineWidth > 100 || ctx.lineWidth < 30 ? !direction : direction;
+
+        //based on direction, increment or decrement hue;
+        if(direction){
+          ctx.lineWidth++
+        }else{
+          ctx.lineWidth--
+        }
+      }
+
+      //set flag based on mouse events
+      document.addEventListener("mousedown", (e) => {
+        isDrawing = true;
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+      });
+      document.addEventListener("mouseup", () => (isDrawing = false));
+      document.addEventListener("mouseout", () => (isDrawing = false));
+
+      //call draw function when mouse moves
+      document.addEventListener("mousemove", draw);
+    </script>
+
+    <style>
+      html,
+      body {
+        margin: 0;
+      }
+    </style>
+  </body>
+</html>
