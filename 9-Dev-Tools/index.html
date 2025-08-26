@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Console Tricks!</title>
+    <link rel="icon" href="https://fav.farm/🔥" />
+  </head>
+  <body>
+    <p onClick="makeGreen()">×BREAK×DOWN×</p>
+
+    <script>
+      const dogs = [
+        { name: "Snickers", age: 2 },
+        { name: "hugo", age: 8 },
+      ];
+
+      function makeGreen() {
+        const p = document.querySelector("p");
+        p.style.color = "#BADA55";
+        p.style.fontSize = "50px";
+      }
+
+      // Regular
+      console.log("Hello");
+
+      // Interpolated
+      const text = "Here";
+      console.log("Hello I am %s !", "Here");
+      console.log(`Hello I am ${text} !`);
+
+      // Styled
+      console.log(
+        "%c Hello I am Here !",
+        "font-size:20px; background:red; text-shadow: 3px 3px 0 blue"
+      );
+
+      // warning!
+      console.warn("Oops ! warning");
+
+      // Error :|
+      console.error("Oops ! error");
+
+      // Info
+      console.info("Did you know? I am here");
+
+      // Testing
+      const p = document.querySelector("p");
+
+      //The assert function works when the expression is false
+      console.assert(
+        p.classList.contains("hello"),
+        "You selected wrong element"
+      );
+
+      // clearing
+
+      // console.clear();
+      //clear the console. Useful when you want to mess with other developers 👀
+      //put this at the end of your javascript code
+
+      // Viewing DOM Elements
+      console.log(p); //will show you the element you selected
+      console.dir(p); //will show you all the propertiess and methods available for the element
+
+      // Grouping together
+      dogs.forEach((dog) => {
+        // console.group(`${dog.name}`);
+
+        //this will by default set the group to be collapsed at the beginning
+        console.groupCollapsed(`${dog.name}`);
+
+        console.log(`This is ${dog.name}`);
+        console.log(`${dog.name} is ${dog.age} years old.`);
+
+        console.groupEnd(`${dog.name}`);
+      });
+
+      // counting
+
+      console.count("wes");
+      console.count("wes");
+      console.count("steve");
+      console.count("wes");
+      console.count("steve");
+      console.count("wes");
+      console.count("steve");
+      console.count("wes");
+      console.count("wes");
+      console.count("steve");
+      console.count("wes");
+      console.count("steve");
+
+      // timing
+      console.time("Running loop");
+
+      function sleepingData() {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({ message: "Hello after 3s" });
+          }, 3000);
+        });
+      }
+
+      sleepingData().then((result) => {
+        console.timeEnd("Running loop");
+        console.log(result);
+      });
+
+      //Table
+      console.table(dogs)
+    </script>
+  </body>
+</html>
