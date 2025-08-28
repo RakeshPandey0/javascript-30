@@ -97,15 +97,15 @@
 
     <script>
       let shiftHold = false;
-      let lastChecked = null;
+      let lastChecked = -1;
       const checkboxes = Array.from(document.querySelectorAll(".item input"));
 
       checkboxes.forEach((checkbox) =>
-        checkbox.addEventListener("change", function () {
+        checkbox.addEventListener("click", function () {
           const currentIndex = checkboxes.indexOf(checkbox);
 
           if (checkbox.checked) {
-            if (shiftHold && lastChecked) {
+            if (shiftHold && lastChecked !== -1) {
               const [min, max] = [
                 Math.min(lastChecked, currentIndex),
                 Math.max(lastChecked, currentIndex),
@@ -116,7 +116,7 @@
               inRange.forEach((checkbox) => (checkbox.checked = true));
             }
           } else {
-            if (shiftHold && lastChecked) {
+            if (shiftHold && lastChecked !== -1) {
               const [min, max] = [
                 Math.min(lastChecked, currentIndex),
                 Math.max(lastChecked, currentIndex),
