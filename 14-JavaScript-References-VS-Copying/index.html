@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JS Reference VS Copy</title>
+    <link rel="icon" href="https://fav.farm/🔥" />
+  </head>
+  <body>
+    <script>
+      // start with strings, numbers and booleans
+
+      console.groupCollapsed("Strings and numbers");
+
+      let name = "ram";
+      let name2 = name;
+      console.groupCollapsed("String");
+      console.log("---Before changing---");
+      console.log(name, name2);
+
+      name = "hari";
+      console.log("---After changing---");
+      console.log(name, name2); //name2 is not updated
+      console.groupEnd("String");
+
+      let age = 100;
+      let age2 = age;
+      console.groupCollapsed("Numbers");
+      console.log("---Before changing---");
+      console.log(age, age2);
+
+      age = 200;
+      console.log("---After changing---");
+      console.log(age, age2); //age2 is not updated
+      console.groupEnd("Numbers");
+      console.groupEnd("Strings and numbers");
+
+      // Let's say we have an array
+      console.groupCollapsed("Array");
+      const players = ["Wes", "Sarah", "Ryan", "Poppy"];
+
+      // and we want to make a copy of it.
+      let team = players;
+      console.groupCollapsed("Simple array assignment");
+      console.log("---Before changing---");
+      console.log(players, team);
+
+      // You might think we can just do something like this:
+      team[3] = "lux";
+
+      // however what happens when we update that array?
+      console.log("---After changing---");
+      console.log(players, team);
+      // now here is the problem!
+
+      // oh no - we have edited the original array too!
+
+      // Why? It's because that is an array reference, not an array copy. They both point to the same array!
+      console.groupEnd("Simple array assignment");
+
+      // So, how do we fix this? We take a copy instead!
+      console.groupCollapsed("Array copy with Slice");
+      let team1 = players.slice();
+      console.log("---Before changing---");
+      console.log(players, team1);
+
+      team1[2] = "bosy";
+      console.log("---After changing---");
+      console.log(players, team1);
+      console.groupEnd("Array copy with Slice");
+
+      // one way
+
+      let team2 = Array.from(players);
+      console.groupCollapsed("Assigning to new array");
+      console.log("---Before changing---");
+      console.log(players, team2);
+
+      team2[2] = "rosy";
+
+      console.log("---After changing---");
+      console.log(players, team2);
+      console.groupEnd("Assigning to new array");
+
+      // or create a new array and concat the old one in
+      console.groupCollapsed("Array Concat");
+      let team3 = [].concat(players);
+      console.log("---Before changing---");
+      console.log(players, team3);
+
+      team3[2] = "cozy";
+      console.log("---After changing---");
+      console.log(players, team3);
+      console.groupEnd("Array Concat");
+
+      // or use the new ES6 Spread
+      console.groupCollapsed("ES6 Array Spread");
+
+      let team4 = [...players];
+      console.log("---Before changing---");
+      console.log(players, team4);
+
+      // now when we update it, the original one isn't changed
+      team4[3] = "dozy";
+      console.log("---After changing---");
+      console.log(players, team4);
+      console.groupEnd("ES6 Array Spread");
+
+      console.groupEnd("Array");
+      // The same thing goes for objects, let's say we have a person object
+
+      console.groupCollapsed("Object");
+      // with Objects
+      const person = {
+        name: "Wes Bos",
+        age: 80,
+      };
+
+      // and think we make a copy:
+      console.groupCollapsed("Simple object assignment");
+
+      const person2 = person;
+      console.log("---Before changing---");
+      console.log(person, person2);
+
+      person2.age = 90;
+      person2.number = 100;
+
+      console.log("---After changing---");
+      console.log(person, person2); //updates both
+      console.groupEnd("Simple object assignment");
+
+      // how do we take a copy instead?
+      console.groupCollapsed("Object.assign property");
+      const person3 = Object.assign({}, person, { number: 10, age: 22 });
+      console.log(person, person3);
+      console.groupEnd("Object.assign property");
+
+      // We will hopefully soon see the object ...spread
+      console.groupCollapsed("Object spread");
+      const person4 = { ...person };
+      console.log("---Before change---");
+      console.log(person, person4);
+
+      person4.age = 10;
+      person4.number = 90;
+
+      console.log("---After change---");
+      console.log(person, person4);
+      console.groupEnd("Object spread");
+      console.groupEnd("Object");
+
+      // Things to note - this is only 1 level deep - both for Arrays and Objects. lodash has a cloneDeep method, but you should think twice before using it.
+      console.groupCollapsed("Note");
+      console.groupCollapsed("Only single level deep");
+      const ram = {
+        name: "ram",
+        age: 23,
+        social: {
+          facebook: "ram_001",
+          twitter: "ram_twtr",
+        },
+      };
+
+      const ram2 = Object.assign({}, ram);
+
+      console.log("---Before changing social link for ram2---");
+      console.log(ram, ram2);
+
+      ram2.social.facebook = "ram_002";
+      console.log("---After changing social link for ram2---");
+      console.log(ram, ram2);
+      console.groupEnd("Only single level deep");
+
+      //cloneDeep method
+      console.groupCollapsed("cloneDeep method");
+
+      const ram3 = JSON.parse(JSON.stringify(ram));
+
+      console.log("---Before changing social link for ram3---");
+      console.log(ram, ram3);
+
+      ram2.social.facebook = "ram_003";
+      console.log("---After changing social link for ram3---");
+      console.log(ram, ram3);
+      console.groupEnd("cloneDeep method");
+      console.groupEnd("Note");
+    </script>
+  </body>
+</html>
